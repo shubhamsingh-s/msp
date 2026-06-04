@@ -20,7 +20,7 @@ function saveCart(cart) {
   updateCartBadge();
   
   // If on cart page, re-render
-  if (window.location.pathname.includes("cart.html")) {
+  if (window.location.pathname.includes("cart.html") || window.location.pathname.endsWith("/cart")) {
     renderCartPage();
   }
 }
@@ -98,7 +98,7 @@ function renderCartPage() {
     container.innerHTML = `
       <div style="text-align: center; padding: 3rem 0;">
         <p style="color: var(--gray-dark); margin-bottom: 1.5rem;">Your enquiry cart is empty.</p>
-        <a href="products.html" class="btn btn-primary btn-sm">Browse Products</a>
+        <a href="products" class="btn btn-primary btn-sm">Browse Products</a>
       </div>
     `;
     if (checkoutBtn) checkoutBtn.disabled = true;
@@ -184,7 +184,7 @@ function showToastNotification(msg, icon = "info", type = "toast-success") {
 // Initialize badge and page on load
 document.addEventListener("DOMContentLoaded", () => {
   updateCartBadge();
-  if (window.location.pathname.includes("cart.html")) {
+  if (window.location.pathname.includes("cart.html") || window.location.pathname.endsWith("/cart")) {
     renderCartPage();
   }
 });

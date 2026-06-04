@@ -215,9 +215,9 @@ async function fetchProductById(id) {
 document.addEventListener("DOMContentLoaded", async () => {
   // Page check
   const path = window.location.pathname;
-  const isIndex = path.includes("index.html") || path.endsWith("/");
-  const isProducts = path.includes("products.html");
-  const isDetails = path.includes("product-details.html");
+  const isIndex = path.includes("index.html") || path.endsWith("/") || path.endsWith("/index");
+  const isProducts = path.includes("products.html") || path.endsWith("/products");
+  const isDetails = path.includes("product-details.html") || path.endsWith("/product-details");
   
   // 1. HOME PAGE RENDERING
   if (isIndex) {
@@ -270,10 +270,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           pdfContainer.style.display = "none";
         }
       } else {
-        document.getElementById("productDetailsWrapper").innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:4rem;"><h3>Product not found!</h3><br><a href="products.html" class="btn btn-primary">Return to Catalog</a></div>`;
+        document.getElementById("productDetailsWrapper").innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:4rem;"><h3>Product not found!</h3><br><a href="products" class="btn btn-primary">Return to Catalog</a></div>`;
       }
     } else {
-      window.location.href = "products.html";
+      window.location.href = "products";
     }
   }
 });
@@ -302,7 +302,7 @@ function generateProductCardHTML(p) {
         <p class="product-desc">${p.description}</p>
         
         <div class="product-footer">
-          <a href="product-details.html?id=${p.id}" class="btn btn-outline btn-sm">Details</a>
+          <a href="product-details?id=${p.id}" class="btn btn-outline btn-sm">Details</a>
           <button class="btn btn-primary btn-sm" onclick="addToEnquiryCartDirect('${p.id}', '${p.name.replace(/'/g, "\\'")}', '${p.category}')">
             <i data-lucide="shopping-cart"></i> Add
           </button>

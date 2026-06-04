@@ -21,19 +21,19 @@ app.use('/js', express.static(path.join(__dirname, 'js')));
 
 // Serve Root Level Pages
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-app.get('/index.html', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-app.get('/products.html', (req, res) => res.sendFile(path.join(__dirname, 'products.html')));
-app.get('/product-details.html', (req, res) => res.sendFile(path.join(__dirname, 'product-details.html')));
-app.get('/cart.html', (req, res) => res.sendFile(path.join(__dirname, 'cart.html')));
-app.get('/about.html', (req, res) => res.sendFile(path.join(__dirname, 'about.html')));
-app.get('/contact.html', (req, res) => res.sendFile(path.join(__dirname, 'contact.html')));
+app.get(['/index', '/index.html'], (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get(['/products', '/products.html'], (req, res) => res.sendFile(path.join(__dirname, 'products.html')));
+app.get(['/product-details', '/product-details.html'], (req, res) => res.sendFile(path.join(__dirname, 'product-details.html')));
+app.get(['/cart', '/cart.html'], (req, res) => res.sendFile(path.join(__dirname, 'cart.html')));
+app.get(['/about', '/about.html'], (req, res) => res.sendFile(path.join(__dirname, 'about.html')));
+app.get(['/contact', '/contact.html'], (req, res) => res.sendFile(path.join(__dirname, 'contact.html')));
 
 // Serve Admin Pages
-app.get('/private-control-room/login.html', (req, res) => res.sendFile(path.join(__dirname, 'private-control-room/login.html')));
-app.get('/private-control-room/dashboard.html', (req, res) => res.sendFile(path.join(__dirname, 'private-control-room/dashboard.html')));
-app.get('/private-control-room/products.html', (req, res) => res.sendFile(path.join(__dirname, 'private-control-room/products.html')));
-app.get('/private-control-room/categories.html', (req, res) => res.sendFile(path.join(__dirname, 'private-control-room/categories.html')));
-app.get('/private-control-room/enquiries.html', (req, res) => res.sendFile(path.join(__dirname, 'private-control-room/enquiries.html')));
+app.get(['/private-control-room/login', '/private-control-room/login.html'], (req, res) => res.sendFile(path.join(__dirname, 'private-control-room/login.html')));
+app.get(['/private-control-room/dashboard', '/private-control-room/dashboard.html'], (req, res) => res.sendFile(path.join(__dirname, 'private-control-room/dashboard.html')));
+app.get(['/private-control-room/products', '/private-control-room/products.html'], (req, res) => res.sendFile(path.join(__dirname, 'private-control-room/products.html')));
+app.get(['/private-control-room/categories', '/private-control-room/categories.html'], (req, res) => res.sendFile(path.join(__dirname, 'private-control-room/categories.html')));
+app.get(['/private-control-room/enquiries', '/private-control-room/enquiries.html'], (req, res) => res.sendFile(path.join(__dirname, 'private-control-room/enquiries.html')));
 
 // Fallback 404 handler
 app.use((req, res) => {

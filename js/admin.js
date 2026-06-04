@@ -1,5 +1,11 @@
 // Maa Sukriti Pharmaceuticals - Admin Dashboard Controllers & CRUD Operations
 
+// Helper for clean URLs check
+function isCurrentPage(name) {
+  const path = window.location.pathname;
+  return path.includes(name + ".html") || path.endsWith("/" + name) || path.includes("/" + name + "?") || path.includes("/" + name + "/");
+}
+
 // Global state trackers
 let currentEditingProductId = null;
 let currentViewingEnquiryId = null;
@@ -74,7 +80,7 @@ async function fetchEnquiries() {
 
 // 1. DASHBOARD OVERVIEW ENGINE
 async function initDashboard() {
-  if (!window.location.pathname.includes("dashboard.html")) return;
+  if (!isCurrentPage("dashboard")) return;
   
   updateDBConnectionBadge();
   
@@ -116,7 +122,7 @@ async function initDashboard() {
           <td style="font-size:0.85rem;">${formattedDate}</td>
           <td><span class="badge ${badgeClass}">${e.status}</span></td>
           <td>
-            <button onclick="window.location.href='enquiries.html?id=${e.id}'" class="btn-action" title="View Details">
+            <button onclick="window.location.href='enquiries?id=${e.id}'" class="btn-action" title="View Details">
               <i data-lucide="eye" style="width:16px; height:16px;"></i>
             </button>
           </td>
@@ -221,7 +227,7 @@ function renderDashboardCharts(products, categories, enquiries) {
 
 // 2. PRODUCT MANAGEMENT CRUD ENGINE
 async function initProductsManager() {
-  if (!window.location.pathname.includes("products.html")) return;
+  if (!isCurrentPage("products")) return;
   
   updateDBConnectionBadge();
   
@@ -531,7 +537,7 @@ async function deleteProduct(prodId) {
 
 // 3. CATEGORY MANAGEMENT CRUD ENGINE
 async function initCategoriesManager() {
-  if (!window.location.pathname.includes("categories.html")) return;
+  if (!isCurrentPage("categories")) return;
   
   updateDBConnectionBadge();
   
@@ -674,7 +680,7 @@ async function deleteCategory(catId) {
 let allFetchedEnquiries = [];
 
 async function initEnquiriesManager() {
-  if (!window.location.pathname.includes("enquiries.html")) return;
+  if (!isCurrentPage("enquiries")) return;
   
   updateDBConnectionBadge();
   
@@ -848,7 +854,7 @@ async function updateModalEnquiryStatus(newStatus) {
   }
   
   // Reload
-  if (window.location.pathname.includes("dashboard.html")) {
+  if (isCurrentPage("dashboard")) {
     initDashboard();
   } else {
     loadAdminEnquiriesTable();
@@ -883,14 +889,13 @@ async function deleteEnquiry(enqId) {
 
 // Global router initialization for page actions
 document.addEventListener("DOMContentLoaded", () => {
-  const path = window.location.pathname;
-  if (path.includes("dashboard.html")) {
+  if (isCurrentPage("dashboard")) {
     initDashboard();
-  } else if (path.includes("products.html") && path.includes("private-control-room")) {
+  } else if (isCurrentPage("products") && window.location.pathname.includes("private-control-room")) {
     initProductsManager();
-  } else if (path.includes("categories.html")) {
+  } else if (isCurrentPage("categories")) {
     initCategoriesManager();
-  } else if (path.includes("enquiries.html") && path.includes("private-control-room")) {
+  } else if (isCurrentPage("enquiries") && window.location.pathname.includes("private-control-room")) {
     initEnquiriesManager();
   }
 });

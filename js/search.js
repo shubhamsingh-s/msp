@@ -11,8 +11,8 @@ function handleSearchInput(e) {
   
   // Set new timer for debounce (300ms)
   searchDebounceTimer = setTimeout(() => {
-    // If on products.html, update searchQuery and filter
-    if (window.location.pathname.includes("products.html")) {
+    // If on products page, update searchQuery and filter
+    if (window.location.pathname.includes("products.html") || window.location.pathname.endsWith("/products")) {
       searchQuery = query;
       currentPage = 1; // reset page back to 1
       applyFiltersAndRender();
@@ -22,7 +22,7 @@ function handleSearchInput(e) {
 
 // Redirect search from homepage (if a search input is ever added to home hero)
 function redirectHomeSearch(query) {
-  window.location.href = `products.html?q=${encodeURIComponent(query)}`;
+  window.location.href = `products?q=${encodeURIComponent(query)}`;
 }
 
 document.addEventListener("DOMContentLoaded", () => {

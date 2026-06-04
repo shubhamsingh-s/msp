@@ -7,7 +7,7 @@ const MOCK_ADMIN_PASSWORD = "admin123";
 // Admin state check
 async function checkAdminAuth() {
   const currentPath = window.location.pathname;
-  const isLoginPage = currentPath.includes("login.html");
+  const isLoginPage = currentPath.includes("login.html") || currentPath.endsWith("/login");
   
   try {
     const res = await fetch("/api/check-auth");
@@ -15,7 +15,7 @@ async function checkAdminAuth() {
       const data = await res.json();
       if (data.authenticated) {
         if (isLoginPage) {
-          window.location.href = "dashboard.html";
+          window.location.href = "dashboard";
         }
         return;
       }
@@ -28,11 +28,11 @@ async function checkAdminAuth() {
   const mockSession = sessionStorage.getItem("mock_admin_session");
   if (mockSession === "true") {
     if (isLoginPage) {
-      window.location.href = "dashboard.html";
+      window.location.href = "dashboard";
     }
   } else {
     if (!isLoginPage) {
-      window.location.href = "login.html";
+      window.location.href = "login";
     }
   }
 }
@@ -47,7 +47,7 @@ async function handleAdminLogin(email, password) {
     });
     
     if (res.ok) {
-      window.location.href = "dashboard.html";
+      window.location.href = "dashboard";
       return;
     }
     
@@ -59,7 +59,7 @@ async function handleAdminLogin(email, password) {
     // Fallback to Mock Auth
     if (email.toLowerCase() === MOCK_ADMIN_EMAIL && password === MOCK_ADMIN_PASSWORD) {
       sessionStorage.setItem("mock_admin_session", "true");
-      window.location.href = "dashboard.html";
+      window.location.href = "dashboard";
     } else {
       throw new Error(e.message || "Invalid admin email or password. Use demo details: admin@mspbharat.com / admin123");
     }
@@ -74,7 +74,7 @@ async function handleAdminLogout() {
     console.error("Logout API error: ", e);
   }
   sessionStorage.removeItem("mock_admin_session");
-  window.location.href = "login.html";
+  window.location.href = "login";
 }
 
 // Show error messages
