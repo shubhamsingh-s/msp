@@ -39,6 +39,7 @@ app.post('/api/login', require('../api-handlers/login'));
 app.post('/api/logout', require('../api-handlers/logout'));
 app.get('/api/check-auth', require('../api-handlers/check-auth'));
 app.get('/api/debug', require('../api-handlers/debug'));
+app.get('/api/test-cloudinary', require('../api-handlers/test-cloudinary'));
 
 module.exports = app;
 module.exports.config = {
