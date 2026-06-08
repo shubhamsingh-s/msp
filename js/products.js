@@ -255,9 +255,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         const detailImg = document.getElementById("detailImage");
         if (product.imageUrl) {
           detailImg.src = product.imageUrl;
+          detailImg.alt = product.name;
+          detailImg.loading = "lazy";
         } else {
           // Default SVG icon placeholder matching category
           detailImg.src = `data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%23f1f5f9"/><text x="50" y="55" font-size="28" text-anchor="middle">💊</text></svg>`;
+          detailImg.alt = "No Product Image Available";
         }
         
         // Brochure Setup
@@ -268,6 +271,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           brochureLink.href = product.pdfUrl;
         } else {
           pdfContainer.style.display = "none";
+        }
+        
+        // Track product view in Google Analytics
+        if (typeof trackProductView === 'function') {
+          trackProductView(product.id, product.name);
         }
       } else {
         document.getElementById("productDetailsWrapper").innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:4rem;"><h3>Product not found!</h3><br><a href="products" class="btn btn-primary">Return to Catalog</a></div>`;
@@ -281,7 +289,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Card HTML Generator Helper
 function generateProductCardHTML(p) {
   const imageTag = p.imageUrl 
-    ? `<img src="${p.imageUrl}" alt="${p.name}">` 
+    ? `<img src="${p.imageUrl}" alt="${p.name}" loading="lazy">` 
     : `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:50%; height:50%; margin:auto;"><rect width="100%" height="100%" fill="none"/><text x="50" y="55" font-size="36" text-anchor="middle">💊</text></svg>`;
   
   const isFeaturedTag = (p.featured === true || p.featured === "true") 
@@ -315,6 +323,9 @@ function generateProductCardHTML(p) {
 // Add to Enquiry Cart Helper
 function addToEnquiryCartDirect(id, name, category) {
   addToCart(id, name, category, 10); // default qty is 10 packs
+  if (typeof trackCartAddition === 'function') {
+    trackCartAddition(id, name, category, 10);
+  }
   showToastNotification(`Added ${name} to Cart`, "check-circle", "toast-success");
 }
 
@@ -326,6 +337,9 @@ function addProductToEnquiryCart() {
   const qty = parseInt(document.getElementById("detailQty").value) || 10;
   
   addToCart(id, name, category, qty);
+  if (typeof trackCartAddition === 'function') {
+    trackCartAddition(id, name, category, qty);
+  }
   showToastNotification(`Added ${qty} packs of ${name} to Enquiry Cart.`, "check-circle", "toast-success");
 }
 
@@ -333,6 +347,10 @@ function addProductToEnquiryCart() {
 function sendDirectWhatsappEnquiry() {
   const name = document.getElementById("detailName").innerText;
   const qty = document.getElementById("detailQty").value || 10;
+  
+  if (typeof trackWhatsAppClick === 'function') {
+    trackWhatsAppClick(name, qty);
+  }
   
   const msg = `Hello Maa Sukriti Pharmaceuticals,\n\nI am interested in the following product:\n1. ${name} - ${qty} Packs\n\nPlease share availability and quote details.`;
   const encoded = encodeURIComponent(msg);

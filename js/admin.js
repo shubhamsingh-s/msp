@@ -442,6 +442,9 @@ async function saveProduct(event) {
     if (res.ok) {
       dbSuccess = true;
       const successMsg = id ? "Product Updated Successfully" : "Product Added Successfully";
+      if (typeof trackAdminActivity === 'function') {
+        trackAdminActivity(id ? 'product_update_success' : 'product_add_success', { name, id: id || 'new' });
+      }
       showToastNotification(successMsg, "check-circle", "toast-success");
     } else {
       const errData = await res.json().catch(() => ({}));
@@ -513,6 +516,9 @@ async function deleteProduct(prodId) {
     });
     if (res.ok) {
       dbSuccess = true;
+      if (typeof trackAdminActivity === 'function') {
+        trackAdminActivity('product_delete_success', { id: prodId });
+      }
       showToastNotification("Product Deleted Successfully", "check-circle", "toast-success");
     } else {
       const errData = await res.json().catch(() => ({}));

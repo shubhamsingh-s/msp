@@ -92,6 +92,11 @@ async function handleCartCheckout(event) {
   messageText += `Company: ${company}\n\n`;
   messageText += `Please contact me.`;
   
+  // 2.5. Track Enquiry in Google Analytics
+  if (typeof trackEnquirySubmitted === 'function') {
+    trackEnquirySubmitted(totalQty, newEnquiryId);
+  }
+
   // 3. Clear Cart
   clearCart();
   

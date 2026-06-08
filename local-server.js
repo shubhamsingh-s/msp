@@ -22,8 +22,12 @@ app.use('/js', express.static(path.join(__dirname, 'js')));
 // Serve Root Level Pages
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get(['/index', '/index.html'], (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+// Dynamic SEO & Sitemap Routes
+app.get('/sitemap.xml', require('./api-handlers/sitemap'));
+app.get('/robots.txt', require('./api-handlers/robots'));
+app.get(['/product-details', '/product-details.html'], require('./api-handlers/product-seo'));
+
 app.get(['/products', '/products.html'], (req, res) => res.sendFile(path.join(__dirname, 'products.html')));
-app.get(['/product-details', '/product-details.html'], (req, res) => res.sendFile(path.join(__dirname, 'product-details.html')));
 app.get(['/cart', '/cart.html'], (req, res) => res.sendFile(path.join(__dirname, 'cart.html')));
 app.get(['/about', '/about.html'], (req, res) => res.sendFile(path.join(__dirname, 'about.html')));
 app.get(['/contact', '/contact.html'], (req, res) => res.sendFile(path.join(__dirname, 'contact.html')));

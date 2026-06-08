@@ -21,6 +21,11 @@ app.use(cookieParser());
 // Route incoming API calls to their respective handlers
 app.get('/api/products', require('../api-handlers/products'));
 app.get('/api/product', require('../api-handlers/product'));
+
+// Dynamic SEO and Sitemap Routes
+app.get('/sitemap.xml', require('../api-handlers/sitemap'));
+app.get('/robots.txt', require('../api-handlers/robots'));
+app.get(['/product-details', '/product-details.html'], require('../api-handlers/product-seo'));
 app.post('/api/add-product', require('../api-handlers/add-product'));
 app.post('/api/update-product', require('../api-handlers/update-product'));
 app.put('/api/update-product', require('../api-handlers/update-product'));

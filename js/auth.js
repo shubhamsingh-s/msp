@@ -47,6 +47,9 @@ async function handleAdminLogin(email, password) {
     });
     
     if (res.ok) {
+      if (typeof trackAdminActivity === 'function') {
+        trackAdminActivity('login_success', { email });
+      }
       window.location.href = "dashboard";
       return;
     }
@@ -59,6 +62,9 @@ async function handleAdminLogin(email, password) {
     // Fallback to Mock Auth
     if (email.toLowerCase() === MOCK_ADMIN_EMAIL && password === MOCK_ADMIN_PASSWORD) {
       sessionStorage.setItem("mock_admin_session", "true");
+      if (typeof trackAdminActivity === 'function') {
+        trackAdminActivity('login_demo_success', { email });
+      }
       window.location.href = "dashboard";
     } else {
       throw new Error(e.message || "Invalid admin email or password. Use demo details: admin@mspbharat.com / admin123");
@@ -68,6 +74,9 @@ async function handleAdminLogin(email, password) {
 
 // Log out execution
 async function handleAdminLogout() {
+  if (typeof trackAdminActivity === 'function') {
+    trackAdminActivity('logout');
+  }
   try {
     await fetch("/api/logout", { method: "POST" });
   } catch (e) {
